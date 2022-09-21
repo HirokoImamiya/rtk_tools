@@ -21,6 +21,7 @@ from .echo import rtkEcho
 from .pub import rtkPub
 from .title import rtkTitle
 from .popup import rtkPopup
+from .check import rtkCheck
 from . import dictlib
 
 class rtkEzui(object):

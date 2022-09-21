@@ -82,6 +82,15 @@ def set_param_sync(name,dat):
       org=dat[k]
     rospy.set_param(name+'/'+k,org)
 
+def set_ini_param():
+  try:
+    filepath = dirpath+"/"+Config["recipe"]["inifile"]
+  except KeyError:
+    pass
+  else:
+    if os.path.isfile(filepath):
+      subprocess.getoutput("rosparam load "+filepath)
+
 def cb_wRecipe(rc):
   if wRecipe is None: return
   wRecipe.delete(0,tk.END)
@@ -98,6 +107,7 @@ def cb_load(msg):
     set_param_sync("/dashboard",Param)
     subprocess.getoutput("rm "+linkpath)
     subprocess.getoutput("ln -s "+dirpath+"/"+RecipeName+" "+linkpath)
+    set_ini_param()
     subprocess.getoutput("rosparam load "+linkpath+"/param.yaml")
     if len(recipe)>1:
       subprocess.getoutput("rosparam load "+linkpath+"/"+str(recipe[1])+".yaml")
